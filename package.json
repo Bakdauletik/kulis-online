@@ -1,0 +1,10 @@
+{
+  "name":"kulis-online",
+  "version":"0.2.0",
+  "private":true,
+  "description":"Kulis Online multiplayer web + Android WebView client",
+  "main":"server/index.js",
+  "scripts":{"start":"node server/index.js","dev":"node --watch server/index.js"},
+  "engines":{"node":">=20"},
+  "dependencies":{"express":"^4.21.2","socket.io":"^4.8.1"}
+}
