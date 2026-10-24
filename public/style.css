@@ -1,51 +1,10 @@
-#game {
-  width: 100%;
-  box-sizing: border-box;
-  padding: 12px;
-  background: #174d38;
-  border: 5px solid #81552f;
-  border-radius: 14px;
-  color: white;
-}
-
-#gamePlayers {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-}
-
-#battle {
-  min-height: 100px;
-  margin: 16px 0;
-  padding: 12px;
-  background: #206747;
-  border: 2px solid #b18a5a;
-  border-radius: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-#hand {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin: 12px 0;
-}
-
-.card-back {
-  width: 48px;
-  height: 68px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: repeating-linear-gradient(
-    45deg, #173d80, #173d80 5px, #315ba0 5px, #315ba0 10px
-  );
-  border: 2px solid white;
-  border-radius: 7px;
-  color: white;
-  font-size: 26px;
-}
+body{font-family:Arial;background:#0f3d1a;color:#fff;margin:0;padding:10px}
+.wrap{max-width:800px;margin:auto}
+#table{background:#1a6b2a;padding:15px;border-radius:12px;min-height:220px;margin:15px 0;border:2px solid #2f8a3f;display:block !important}
+.card{display:inline-block;width:62px;height:88px;background:#fff;color:#000;border-radius:8px;margin:5px;text-align:center;line-height:80px;font-weight:bold;cursor:pointer;border:3px solid transparent}
+.card.red{color:#d00}
+.card.back{background:#333;color:#fff}
+.card.selected{border-color:yellow;transform:translateY(-8px)}
+button{padding:10px 14px;margin:4px;border-radius:8px;border:0;font-weight:bold;cursor:pointer}
+#log{background:#000;color:#0f0;padding:8px;height:120px;overflow:auto;margin-top:10px}
+.hidden{display:none !important}
