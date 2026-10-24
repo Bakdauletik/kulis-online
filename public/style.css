@@ -1,10 +1,27 @@
-body{font-family:Arial;background:#0f3d1a;color:#fff;margin:0;padding:10px}
-.wrap{max-width:800px;margin:auto}
-#table{background:#1a6b2a;padding:15px;border-radius:12px;min-height:220px;margin:15px 0;border:2px solid #2f8a3f;display:block !important}
-.card{display:inline-block;width:62px;height:88px;background:#fff;color:#000;border-radius:8px;margin:5px;text-align:center;line-height:80px;font-weight:bold;cursor:pointer;border:3px solid transparent}
+body{margin:0;background:#0a2e14;font-family:Arial;color:white;overflow-x:hidden}
+.durak-table{min-height:100vh;display:flex;flex-direction:column;justify-content:space-between;padding:10px}
+.opponents{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.opponents div{background:#00000066;padding:8px 12px;border-radius:20px;font-size:14px}
+.center{display:flex;flex-direction:column;align-items:center;gap:10px;flex:1;justify-content:center}
+.trump-box{background:gold;color:black;padding:10px 15px;border-radius:10px;text-align:center;font-weight:bold;min-width:70px}
+.pot-box{background:#00000088;padding:6px 12px;border-radius:10px}
+#table{background:radial-gradient(#1e7a32, #123d1a);width:95%;max-width:600px;min-height:260px;border-radius:18px;border:3px solid #2d8a3e;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px}
+.battle-area{display:flex;gap:15px;flex-wrap:wrap;justify-content:center;min-height:110px}
+.table-label{margin-top:10px;color:#aaffaa}
+.my-hand-area{text-align:center;background:#00000055;padding:10px;border-radius:15px 15px 0 0}
+.hand{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin:10px 0}
+.card{width:68px;height:98px;background:white;color:black;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:bold;font-size:22px;cursor:pointer;border:3px solid transparent;box-shadow:0 4px 8px #00000088;transition:0.2s}
 .card.red{color:#d00}
-.card.back{background:#333;color:#fff}
-.card.selected{border-color:yellow;transform:translateY(-8px)}
-button{padding:10px 14px;margin:4px;border-radius:8px;border:0;font-weight:bold;cursor:pointer}
-#log{background:#000;color:#0f0;padding:8px;height:120px;overflow:auto;margin-top:10px}
+.card.back{background:linear-gradient(135deg,#222,#444);color:white;font-size:30px}
+.card.selected{border-color:yellow;transform:translateY(-15px) scale(1.05);box-shadow:0 0 15px yellow}
+.btn-group{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.btn-group button{padding:10px 14px;border-radius:10px;border:0;font-weight:bold;cursor:pointer;background:#eee}
+.btn-group button.gold{background:gold}
+.btn-group button.green{background:#2ecc71;color:white}
+.btn-group button.red{background:#e74c3c;color:white}
+.btn-group button.big{padding:12px 20px;font-size:16px;width:100%;background:#2ecc71;color:white}
+.lobby-overlay{position:fixed;inset:0;background:#0a2e14ee;display:flex;align-items:center;justify-content:center;z-index:10}
+.lobby-box{background:#1a4d25;padding:25px;border-radius:15px;text-align:center;width:90%;max-width:320px}
+.lobby-box input{width:90%;padding:10px;margin:5px;border-radius:8px;border:0}
+#log{position:fixed;bottom:0;left:0;right:0;background:black;color:#0f0;height:22px;overflow:hidden;font-size:12px;padding:2px 10px;opacity:0.7}
 .hidden{display:none !important}
