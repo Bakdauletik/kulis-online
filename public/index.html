@@ -1,58 +1,67 @@
 <!DOCTYPE html>
-<html lang="kk">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Кулис Online</title>
-<style>
-body{font-family:sans-serif;background:#0f3d1a;color:white;padding:10px;}
-.card{display:inline-block;width:60px;height:90px;background:white;color:black;border-radius:8px;margin:4px;text-align:center;line-height:90px;font-weight:bold;cursor:pointer;border:2px solid transparent}
-.card.red{color:red}
-.card.back{background:#333;color:white;line-height:90px}
-.card.selected{border-color:yellow;transform:translateY(-10px)}
-#table{background:#1a5c2a;padding:15px;border-radius:12px;min-height:200px;margin:10px 0;border:2px solid #2a7a3a}
-button{padding:10px 15px;margin:4px;border-radius:8px;border:none;font-weight:bold;cursor:pointer}
-#log{background:black;color:lime;padding:10px;height:150px;overflow:auto;font-size:13px}
-.hidden{display:none !important}
-</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кулис - Дурак формат</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>Кулис Online 🃏</h2>
-<div id="lobby">
-  <input id="name" placeholder="Атың">
-  <button id="create">Ойын құру</button>
-  <div style="margin:10px 0">
-    <input id="roomId" placeholder="Бөлме коды">
-    <button id="join">Қосылу</button>
+<div class="durak-table">
+  <!-- Жоғарғы ойыншылар -->
+  <div class="opponents" id="players"></div>
+  
+  <!-- Орталық үстел -->
+  <div class="center">
+    <div class="trump-box">
+      Козырь<br>
+      <span id="trump">-</span>
+    </div>
+    <div class="pot-box">Банк: <span id="pot">0</span></div>
+    <div id="table">
+      <div id="battle" class="battle-area"></div>
+      <div class="table-label" id="turn">Кезек: -</div>
+    </div>
   </div>
-  <button id="copy" class="hidden">Кодты көшіру</button>
-  <div id="roomInfo"></div>
+
+  <!-- Астындағы өз қолың -->
+  <div class="my-hand-area">
+    <h3>Сенің карталарың</h3>
+    <div id="hand" class="hand durak-hand"></div>
+    <div class="actions">
+      <div id="betActions" class="btn-group">
+        <button data-act="blind">Соқыр</button>
+        <button data-act="look" class="gold">Кулис ашу</button>
+        <button data-act="call">Теңестіру</button>
+        <button data-act="raise">Көтеру <input id="betAmount" type="number" value="100" step="100" style="width:60px"></button>
+        <button data-act="fold" class="red">Пас</button>
+      </div>
+      <div id="duelActions" class="btn-group hidden">
+        <button id="reveal" class="gold">Картаны көру</button>
+        <button id="play" class="green">Шығу</button>
+        <button id="foldDuel" class="red">Пас</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div id="game" class="hidden">
-  <div>Банк: <span id="pot">0</span> | Козырь: <span id="trump">-</span> | Кезек: <span id="turn">-</span></div>
-  <div id="table">
-    <h3>Үстелдегі карталар:</h3>
-    <div id="battle"></div>
-    <h3>Сенің карталарың:</h3>
-    <div id="hand"></div>
+<!-- Лобби -->
+<div id="lobby" class="lobby-overlay">
+  <div class="lobby-box">
+    <h2>Кулис Online 🃏</h2>
+    <input id="name" placeholder="Атың">
+    <button id="create" class="big">Ойын құру</button>
+    <div style="margin:15px 0">немесе</div>
+    <input id="roomId" placeholder="Бөлме коды">
+    <button id="join" class="big">Қосылу</button>
+    <div id="roomInfo" style="margin-top:15px;font-size:18px"></div>
+    <button id="copy" class="hidden">Кодты көшіру</button>
   </div>
-  <div id="betActions">
-    <button data-act="blind">Соқыр жалғастыру</button>
-    <button data-act="look">Картаны көру (Кулис ашу)</button>
-    <button data-act="call">Теңестіру</button>
-    <button data-act="raise">Көтеру</button>
-    <button data-act="fold">Пас</button>
-    <input id="betAmount" type="number" value="100" min="100" step="100" style="width:80px">
-  </div>
-  <div id="duelActions" class="hidden">
-    <button id="reveal">Картаны көру</button>
-    <button id="play">Таңдалған картаны ойнау</button>
-    <button id="foldDuel">Пас</button>
-  </div>
-  <div id="players"></div>
 </div>
+
 <div id="log"></div>
+<div id="game" class="hidden"></div>
+
 <script src="/socket.io/socket.io.js"></script>
 <script src="app.js"></script>
 </body>
