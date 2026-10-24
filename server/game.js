@@ -73,7 +73,12 @@ class Game {
   stateFor(pid){
     const self=this.players.find(p=>p.id===pid);
     return {status:this.status,phase:this.phase,players:this.players.map(p=>({id:p.id,name:p.name,seat:p.seat,folded:p.folded,connected:p.connected,money:p.money,cardCount:p.hand.length})),
-      self:self?{id:self.id,money:self.money,hand:self.hand}:null,
+      self:self?{
+  id:self.id,
+  money:self.money,
+  hand:self.seen ? self.hand : [],
+  seen:self.seen
+}:null,
       trump:this.trump,pot:this.pot,currentBet:this.currentBet,turnPlayerId:this.current()?.id||null,
       battle:this.battle,log:this.log,winnerId:this.winnerId||null};
   }
