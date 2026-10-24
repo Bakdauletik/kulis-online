@@ -17,7 +17,16 @@ function showGame(s){state=s;$("lobby").classList.add("hidden");$("game").classL
     ).join("")
   : '<div class="card card-back">🂠</div><div class="card card-back">🂠</div><div class="card card-back">🂠</div>';$("hand").querySelectorAll("[data-i]").forEach(el=>el.onclick=()=>{selected=+el.dataset.i;showGame(state)});const mine=s.turnPlayerId===playerId&&s.status==="playing";$("turnMsg").textContent=s.status==="finished"?(s.winnerId===playerId?"СЕН ЖЕҢДІҢ!":"Ойын аяқталды"):(mine?"Сенің кезегің":"Қарсыластың кезегі");$("betActions").classList.toggle("hidden",!mine||s.phase!=="betting");$("duelActions").classList.toggle("hidden",!mine||s.phase!=="duel");$("result").textContent=s.status==="finished"?(s.players.find(p=>p.id===s.winnerId)?.name+" жеңімпаз! Банк: "+fmt(s.pot)):"";$("log").textContent=(s.log||[]).join("\n");}
 function card(c,n){return `<div><div class="muted">${esc(n)}</div><div class="card ${c.red?"red":""}">${c.r}${c.s}</div></div>`}
-$("betActions").querySelectorAll("[data-act]").forEach(b=>b.onclick=async()=>{const type=b.dataset.act;const r=await call("game:action",{type,amount:100});if(r)selected=-1});
+$("betActions").querySelectorAll("[data-act]").forEach(b=>b.onclick=async()=>{const type=b.dataset.act;const amount = Number($("betAmount").value);
+if (type === "raise" && (!Number.isFinite(amount) || amount < 100)) {
+  msg("Ставка кемінде 100 болуы керек");
+  return;
+}
+const r = await call("game:action", {
+  type,
+  amount: type === "raise" ? amount : undefined
+});
+if (r) selected = -1;if(r)selected=-1});
 $("reveal").onclick=async()=>{const r=await call("game:action",{type:"reveal"});if(r)selected=-1};
 $("play").onclick=async()=>{if(selected<0){msg("Алдымен карта таңда");return}const r=await call("game:action",{type:"play",cardIndex:selected});if(r)selected=-1};
 socket.on("connect",()=>msg("Серверге қосылды"));socket.on("disconnect",()=>msg("Байланыс үзілді. Қайта қосылуда…"));
