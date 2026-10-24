@@ -38,7 +38,6 @@ class Game {
       const amount = Math.max(100, Math.floor(Number(a.amount) || 100));
 if (amount % 100 !== 0) throw Error("Ставка 100-ге еселі болуы керек");
 if (p.money < amount) throw Error("Фишка жеткіліксіз");
-      if(p.money<amount)throw Error("Фишка жеткіліксіз");
       p.money-=amount;p.contribution+=amount;this.pot+=amount;this.currentBet+=amount;this.lastRaiser=p.id;
       this.note(p.name+" ставканы көтерді.");
     } else throw Error("Белгісіз әрекет");
