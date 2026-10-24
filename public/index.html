@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="kk"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><title>Кулис Онлайн</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#06281e;color:#f7f1d2;font-family:system-ui,Arial}header{text-align:center;padding:12px;background:#031b14;position:sticky;top:0}main{max-width:760px;margin:auto;padding:12px}.panel{background:#0b3426;border:1px solid #4c846c;border-radius:16px;padding:14px;margin:10px 0}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}input,button{font:inherit;border:0;border-radius:10px;padding:11px}input{min-width:0;flex:1}button{background:#ffda68;font-weight:700;color:#17241a}button.alt{background:#d5e6da}button.warn{background:#f4a19a}button:disabled{opacity:.4}.players{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}.player{background:#124632;padding:10px;border-radius:12px}.cards{display:flex;gap:8px;flex-wrap:wrap}.card{background:#fff8e7;color:#17261f;border-radius:8px;padding:15px 12px;min-width:48px;text-align:center;font-size:20px;border:2px solid #ddd}.card.red{color:#c62e36}.card.pick{outline:3px solid #ffda55;transform:translateY(-4px)}.muted{color:#c1d7c9;font-size:13px}.hidden{display:none}#log{max-height:130px;overflow:auto;white-space:pre-line}.notice{color:#ffe17b;min-height:25px}
+</style></head><body>
+<header><b>♠ КУЛИС ОНЛАЙН</b><div class="muted">Онлайн үстел • виртуалды фишкалар</div></header>
+<main>
+<section id="entry" class="panel">
+<h3>Ойынға қосылу</h3><div class="row"><input id="name" maxlength="20" placeholder="Ойыншы аты" value="Ойыншы"></div>
+<div class="row" style="margin-top:8px"><button id="create">Бөлме ашу</button><input id="roomCode" placeholder="Бөлме коды" autocapitalize="characters"><button id="join">Қосылу</button></div>
+<p class="muted">Бөлмені ашқан адам достарына бөлме кодын жібереді.</p>
+</section>
+<section id="lobby" class="panel hidden"><div class="row"><h3 style="flex:1">Бөлме: <span id="roomId"></span></h3><button class="alt" id="copy">Кодты көшіру</button></div><div id="players" class="players"></div><p class="muted">2–9 ойыншы. Бөлме иесі ойынды бастайды.</p><button id="start">Ойынды бастау</button> <button class="warn" id="leave">Шығу</button></section>
+<section id="game" class="panel hidden"><div class="row"><div>Банк: <b id="pot">0</b> ₸</div><div>Ставка: <b id="bet">0</b> ₸</div><div>Козырь: <b id="trump">—</b></div></div><p class="notice" id="turnMsg"></p><div id="gamePlayers" class="players"></div><h3>Үстелдегі карталар</h3><div id="battle" class="cards"></div><h3>Сенің карталарың</h3><div id="hand" class="cards"></div><p class="muted" id="wallet"></p>
+<div class="row" id="betActions"><button data-act="look" class="alt">Картаны көру</button><button data-act="blind">Соқыр жалғастыру</button><button data-act="call">Теңестіру</button><button data-act="raise">+100 көтеру</button><button data-act="fold" class="warn">Пас</button></div>
+<div class="row hidden" id="duelActions"><button id="reveal">Кулисті ашу</button><button id="play">Таңдалған картаны ойнау</button><button data-act="fold" class="warn">Сurrender / Пас</button></div>
+<div id="result" class="notice"></div></section>
+<section class="panel"><b>Хабарлар</b><div id="message" class="notice"></div><div id="log" class="muted"></div></section>
+<p class="muted">Прототип. Тек виртуалды фишкалар. Нақты ақша/төлем жоқ.</p>
+</main><script src="/socket.io/socket.io.js"></script><script src="app.js"></script></body></html>
