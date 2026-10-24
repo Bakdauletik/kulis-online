@@ -2,63 +2,57 @@ const socket = io();
 let roomId = null;
 let playerId = null;
 let selectedIndex = null;
-let myState = null;
 
 socket.on('connect', () => { playerId = socket.id; });
 
 document.getElementById('create').onclick = () => {
-  const name = document.getElementById('name').value || 'Бақдәулет';
+  const name = document.getElementById('name').value || "Baqdaulet";
   socket.emit('createRoom', { name });
 };
 
 document.getElementById('join').onclick = () => {
-  const name = document.getElementById('name').value || 'Ойыншы';
+  const name = document.getElementById('name').value || "Oyinshy";
   const code = document.getElementById('roomId').value.trim().toUpperCase();
-  if (!code) { alert('Бөлме кодын жаз'); return; }
+  if (!code) { alert('Bolme kodyn jaz'); return; }
   roomId = code;
   socket.emit('joinRoom', { roomId: code, name });
 };
 
 socket.on('roomCreated', (data) => {
   roomId = data.roomId;
-  document.getElementById('roomInfo').innerHTML = `Бөлме коды: <b>${roomId}</b> — достарыңа жібер`;
+  document.getElementById('roomInfo').innerHTML = `Bolme kody: <b style="font-size:22px;letter-spacing:3px">${roomId}</b> <button onclick="navigator.clipboard.writeText('${roomId}')">Koshiru</button><br>Dostarina jiber`;
   document.getElementById('copy').classList.remove('hidden');
-  document.getElementById('copy').onclick = () => navigator.clipboard.writeText(roomId);
   document.getElementById('roomId').value = roomId;
-  // авто қосылу
-  const name = document.getElementById('name').value || 'Бақдәулет';
-  socket.emit('joinRoom', { roomId, name });
 });
 
-socket.on('lobby', (players) => {
-  document.getElementById('roomInfo').innerHTML += `<br>Ойыншылар: ${players.map(p=>p.name).join(', ')} - тағы 1 ойыншы күтудеміз...`;
+socket.on('roomCode', (d)=>{ roomId = d.roomId; });
+
+socket.on('lobby', (data)=>{
+  roomId = data.roomId;
+  document.getElementById('lobby').classList.remove('hidden');
+  document.getElementById('game').classList.add('hidden');
+  document.getElementById('roomInfo').innerHTML = `Bolme kody: <b style="font-size:22px">${roomId}</b> <button onclick="navigator.clipboard.writeText('${roomId}')">Koshiru</button><br>Kutudemiz: ${data.players.map(p=>p.name).join(', ')}`;
 });
 
 socket.on('state', (s) => {
-  myState = s;
   showGame(s);
 });
 
 socket.on('errorMsg', (msg) => alert(msg));
-socket.on('gameOver', (d) => alert('Ойын бітті! Лог: ' + d.log[0]));
 
 function showGame(s){
+  if(roomId){
+    const info = document.getElementById('roomInfo');
+    if(info) info.innerHTML = `Bolme: <b>${roomId}</b> <button onclick="navigator.clipboard.writeText('${roomId}')">Koshiru</button>`;
+  }
   document.getElementById('lobby').classList.add('hidden');
   document.getElementById('game').classList.remove('hidden');
   document.getElementById('pot').textContent = s.pot;
   document.getElementById('trump').textContent = s.trump ? s.trump.r + s.trump.s : '-';
   const turnName = s.players.find(p=>p.id===s.turnPlayerId)?.name || '-';
   document.getElementById('turn').textContent = turnName;
-
-  // ҮСТЕЛ
   const battleDiv = document.getElementById('battle');
-  if (s.battle && s.battle.length) {
-    battleDiv.innerHTML = s.battle.map(b=>`<div class="card ${b.card.red?'red':''}">${b.card.r}${b.card.s}<br><small>${b.name}</small></div>`).join('');
-  } else {
-    battleDiv.innerHTML = '<i style="color:#9f9">Әлі карта ойналмады</i>';
-  }
-
-  // ҚОЛ
+  battleDiv.innerHTML = s.battle && s.battle.length ? s.battle.map(b=>`<div class="card ${b.card.red?'red':''}">${b.card.r}${b.card.s}<br><small>${b.name}</small></div>`).join('') : '<i style="color:#9f9">Ali karta oinalmady</i>';
   const handDiv = document.getElementById('hand');
   if (s.self && s.self.hand) {
     handDiv.innerHTML = s.self.hand.map((c,i)=>{
@@ -69,19 +63,14 @@ function showGame(s){
       el.onclick=()=>{ selectedIndex=Number(el.dataset.i); handDiv.querySelectorAll('.card').forEach(x=>x.classList.remove('selected')); el.classList.add('selected'); }
     });
   }
-
   const isMyTurn = s.turnPlayerId === socket.id;
+  document.querySelectorAll('#betActions button, #duelActions button').forEach(b=> b.disabled = !isMyTurn);
   document.getElementById('betActions').classList.toggle('hidden', !(s.phase==='betting'));
   document.getElementById('duelActions').classList.toggle('hidden', !(s.phase==='duel'));
-  
-  // Кезек емес болса батырмаларды өшіру
-  document.querySelectorAll('#betActions button, #duelActions button').forEach(b=> b.disabled = !isMyTurn);
-
-  document.getElementById('players').innerHTML = s.players.map(p=>`${p.name}: ${p.money} фишка (${p.cardCount} карта) ${p.id===s.turnPlayerId?'👉 кезек':''}`).join('<br>');
+  document.getElementById('players').innerHTML = s.players.map(p=>`${p.name}: ${p.money} fishka (${p.cardCount} karta) ${p.id===s.turnPlayerId?'👉 kezek':''}`).join('<br>');
   document.getElementById('log').innerHTML = s.log.join('<br>');
 }
 
-// BETTING actions
 document.querySelectorAll('#betActions button').forEach(btn=>{
   btn.onclick=()=>{
     const act = btn.dataset.act;
@@ -91,7 +80,7 @@ document.querySelectorAll('#betActions button').forEach(btn=>{
 });
 document.getElementById('reveal').onclick=()=> socket.emit('action', { roomId, action: { type: 'reveal' } });
 document.getElementById('play').onclick=()=>{
-  if (selectedIndex===null){ alert('Карта таңда'); return; }
+  if (selectedIndex===null){ alert('Karta tanda'); return; }
   socket.emit('action', { roomId, action: { type: 'play', cardIndex: selectedIndex } });
   selectedIndex=null;
 };
